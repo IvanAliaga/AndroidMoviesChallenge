@@ -3,7 +3,6 @@ package com.android.movieschallenge
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.android.movieschallenge.presentation.MoviesScreen
 import com.android.movieschallenge.ui.theme.AndroidMoviesChallengeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -13,8 +12,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             AndroidMoviesChallengeTheme {
-                // A surface container using the 'background' color from the theme
-                MoviesScreen(this)
+                Root(this)
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.android.movieschallenge.presentation
+package com.android.movieschallenge.presentation.movies
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,9 +28,5 @@ class MoviesViewModel @Inject constructor(private val moviesUseCase: GetMoviesUs
             movies.postValue(result.distinctBy { it.id }.sortedBy { it.title })
             isLoading.postValue(false)
         }
-    }
-
-    fun getMoreMovies(page: Int){
-
     }
 }

@@ -1,4 +1,4 @@
-package com.android.movieschallenge.presentation
+package com.android.movieschallenge.presentation.movies
 
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
