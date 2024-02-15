@@ -1,12 +1,11 @@
-package com.android.movieschallenge.data.model
+package com.android.movieschallenge.data.network.response
 
-import androidx.room.ColumnInfo
 import com.google.gson.annotations.SerializedName
 
-data class MovieModel (
+data class MovieResponse (
     @SerializedName("id") val id: Int,
     @SerializedName("title") val title: String,
-    @SerializedName("vote_average") val author: Double,
+    @SerializedName("vote_average") val voteAverage: Double,
     @SerializedName("release_date") val releaseDate: Double,
     @SerializedName("overview") val overview: String,
     @SerializedName("poster_path") val posterPath: String
