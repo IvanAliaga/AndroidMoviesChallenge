@@ -16,9 +16,9 @@ class GetMoviesUseCase @Inject constructor(private val repository: MovieReposito
         * */
         val movies = repository.getAllMoviesFromApi(page)
         return if(movies.isEmpty()){
-            repository.getAllMoviesFromDatabase()
+            repository.getAllMoviesFromDatabase(page)
         }else{
-            repository.clearMovies()
+            //repository.clearMovies()
             repository.insertMovies(movies.map { it.toDatabase() })
             movies
         }

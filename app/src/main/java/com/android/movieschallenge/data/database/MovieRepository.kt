@@ -17,8 +17,9 @@ class MovieRepository @Inject constructor(
         return response.map { it.toDomain() }
     }
 
-    suspend fun getAllMoviesFromDatabase():List<Movie>{
-        val response: List<MovieEntity> = movieDao.getAllMovies()
+    suspend fun getAllMoviesFromDatabase(page: Int):List<Movie>{
+        val offset: Int = 20 * (page - 1)
+        val response: List<MovieEntity> = movieDao.getPagedMovies(offset)
         return response.map { it.toDomain() }
     }
 

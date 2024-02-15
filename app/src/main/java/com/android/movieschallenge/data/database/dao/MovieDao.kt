@@ -8,11 +8,11 @@ import com.android.movieschallenge.data.database.entity.MovieEntity
 
 @Dao
 interface MovieDao {
-    @Query("SELECT * FROM movie_table ORDER BY title DESC")
+    @Query("SELECT * FROM movie_table")
     suspend fun getAllMovies():List<MovieEntity>
 
-    @Query("SELECT * FROM movie_table ORDER BY id ASC LIMIT :limit OFFSET :offset")
-    suspend fun getPagedMovies(limit: Int, offset: Int): List<MovieEntity>
+    @Query("SELECT * FROM movie_table LIMIT 20 OFFSET :offset")
+    suspend fun getPagedMovies(offset: Int): List<MovieEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(movies:List<MovieEntity>)
