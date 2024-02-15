@@ -5,7 +5,10 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableIntState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,14 +21,21 @@ import com.android.movieschallenge.domain.model.Movie
 
 @Composable
 fun MoviesScreen(lifeCycleOwner: LifecycleOwner, viewModel: MoviesViewModel = hiltViewModel()) {
-    var listMovies by remember { mutableStateOf<List<Movie>>(emptyList()) }
+    val listMovies = remember { mutableStateListOf<Movie>() }
     var visibilityMessage by remember {
         mutableStateOf(true)
     }
-    viewModel.getMovies()
-    viewModel.movies.observe(lifeCycleOwner, Observer {
+    var visibilityList by remember {
+        mutableStateOf(false)
+    }
+    val initialPage = remember {
+        mutableIntStateOf(1)
+    }
+
+    viewModel.movies.observe(lifeCycleOwner, Observer { it ->
         Log.e("Movies", "movies: $it")
-        listMovies = listMovies.plus(it)
+        listMovies.addAll(it)
+        visibilityList = true
     })
     viewModel.isLoading.observe(lifeCycleOwner, Observer {
         visibilityMessage = it
@@ -33,24 +43,28 @@ fun MoviesScreen(lifeCycleOwner: LifecycleOwner, viewModel: MoviesViewModel = hi
     AnimatedVisibility(visible = visibilityMessage) {
         Text(text = "Cargando...", color = Color.Black)
     }
-    AnimatedVisibility(visible = !visibilityMessage) {
-        MoviesList(listMovies, viewModel)
+    AnimatedVisibility(visible = visibilityList, ) {
+        MoviesList(listMovies, viewModel, initialPage)
     }
 
 }
 
 @Composable
-fun MoviesList(liveMovies: List<Movie>, viewModel: MoviesViewModel) {
+fun MoviesList(listMovies: List<Movie>, viewModel: MoviesViewModel, page: MutableIntState) {
 
     LazyColumn {
-        items(liveMovies.size) {
+        items(listMovies.size) {
             // Muestra el elemento en la posición actual de la lista
             Text(text = "Position: ${it}")
-            Text(text = "Item ${liveMovies[it]}")
+            Text(text = "Item ${listMovies[it].title}")
 
             // Si estamos cerca del final de la lista, agregamos más elementos
-            if (it == liveMovies.lastIndex) {
-                viewModel.getMoreMovies(2)
+            // se ejecutará cada vez que cambie el estado del composable,
+            LaunchedEffect(Unit) {
+                if (it == listMovies.lastIndex) {
+                    page.intValue = page.intValue + 1
+                    viewModel.getMovies(page.intValue)
+                }
             }
         }
     }

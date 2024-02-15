@@ -15,11 +15,15 @@ import javax.inject.Inject
 class MoviesViewModel @Inject constructor(private val moviesUseCase: GetMoviesUseCase) : ViewModel() {
     val movies = MutableLiveData<List<Movie>>()
     val isLoading = MutableLiveData<Boolean>()
-     fun getMovies(){
+
+    init {
+        getMovies(1)
+    }
+    fun getMovies(page: Int){
         viewModelScope.launch() {
             isLoading.postValue(true)
             val result = withContext(Dispatchers.Default) {
-                moviesUseCase.invoke()
+                moviesUseCase.invoke(page)
             }
             movies.postValue(result)
             isLoading.postValue(false)
