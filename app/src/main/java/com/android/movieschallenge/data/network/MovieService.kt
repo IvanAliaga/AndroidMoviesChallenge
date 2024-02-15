@@ -9,7 +9,7 @@ class MovieService @Inject constructor(private val api: MovieDataApi) {
     suspend fun getMovies(): List<MovieResponse> {
         return withContext(Dispatchers.IO) {
             val response = api.getUpcoming()
-            response.body() ?: emptyList()
+            response.body()?.results ?: emptyList()
         }
     }
 

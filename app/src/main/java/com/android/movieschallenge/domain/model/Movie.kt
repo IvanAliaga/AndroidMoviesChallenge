@@ -6,7 +6,7 @@ import com.android.movieschallenge.data.network.response.MovieResponse
 data class Movie (val id: Int,
                   val title: String,
                   val voteAverage: Double,
-                  val releaseDate: Double,
+                  val releaseDate: String,
                   val overview: String,
                   val posterPath: String)
 

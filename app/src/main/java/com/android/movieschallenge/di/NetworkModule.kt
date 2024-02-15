@@ -1,9 +1,8 @@
-package com.app.bancamovil.di
+package com.android.movieschallenge.di
 
 import android.content.Context
 import com.android.movieschallenge.App
 import com.android.movieschallenge.data.network.MovieDataApi
-import com.android.movieschallenge.di.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,6 +30,7 @@ object NetworkModule {
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(provideOkHttpClient(provideHeaderInterceptor()))
             .build()
     }
 
@@ -62,7 +62,7 @@ object NetworkModule {
         return Interceptor {
             val requestBuilder = it.request().newBuilder()
             requestBuilder.addHeader("accept", "application/json")
-                .addHeader("Authorization", "Bearer $TOKEN")
+            requestBuilder.addHeader("Authorization", "Bearer $TOKEN")
             it.proceed(requestBuilder.build())
         }
     }
