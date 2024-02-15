@@ -2,6 +2,8 @@ package com.android.movieschallenge.presentation.movies
 
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +15,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
@@ -20,7 +23,7 @@ import androidx.lifecycle.Observer
 import com.android.movieschallenge.domain.model.Movie
 
 @Composable
-fun MoviesScreen(lifeCycleOwner: LifecycleOwner, viewModel: MoviesViewModel = hiltViewModel()) {
+fun MoviesScreen(lifeCycleOwner: LifecycleOwner, viewModel: MoviesViewModel = hiltViewModel(), toMovieDetail: (Int) -> Unit) {
     val listMovies = remember { mutableStateListOf<Movie>() }
     var visibilityMessage by remember {
         mutableStateOf(true)
@@ -44,19 +47,29 @@ fun MoviesScreen(lifeCycleOwner: LifecycleOwner, viewModel: MoviesViewModel = hi
         Text(text = "Cargando...", color = Color.Black)
     }
     AnimatedVisibility(visible = visibilityList, ) {
-        MoviesList(listMovies, viewModel, initialPage)
+        MoviesList(listMovies, viewModel, initialPage, toMovieDetail)
     }
 
 }
 
 @Composable
-fun MoviesList(listMovies: List<Movie>, viewModel: MoviesViewModel, page: MutableIntState) {
+fun MoviesList(
+    listMovies: List<Movie>,
+    viewModel: MoviesViewModel,
+    page: MutableIntState,
+    toMovieDetail: (Int) -> Unit
+) {
 
     LazyColumn {
         items(listMovies.size) {
-            // Muestra el elemento en la posición actual de la lista
-            Text(text = "Position: ${it}")
-            Text(text = "Item ${listMovies[it].title}")
+
+            Column(modifier = Modifier.clickable {
+                toMovieDetail(listMovies[it].id)
+            }) {
+                Text(text = "Position: ${it}")
+                Text(text = "Item ${listMovies[it].title}")
+            }
+
 
             // Si estamos cerca del final de la lista, agregamos más elementos
             // se ejecutará cada vez que cambie el estado del composable,
