@@ -1,11 +1,11 @@
 package com.android.movieschallenge.presentation.movies
 
-import android.util.Log
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Text
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableIntState
@@ -16,18 +16,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.android.movieschallenge.domain.model.Movie
+import com.android.movieschallenge.presentation.LoaderFullScreen
 
 @Composable
 fun MoviesScreen(lifeCycleOwner: LifecycleOwner, viewModel: MoviesViewModel = hiltViewModel(), toMovieDetail: (Int) -> Unit) {
     val listMovies = remember { mutableStateListOf<Movie>() }
-    var visibilityMessage by remember {
-        mutableStateOf(true)
-    }
+
     var visibilityList by remember {
         mutableStateOf(false)
     }
@@ -35,19 +33,22 @@ fun MoviesScreen(lifeCycleOwner: LifecycleOwner, viewModel: MoviesViewModel = hi
         mutableIntStateOf(1)
     }
 
+    var isLoading by remember { mutableStateOf(true) }
+
     viewModel.movies.observe(lifeCycleOwner, Observer { it ->
-        Log.e("Movies", "movies: $it")
         listMovies.addAll(it)
         visibilityList = true
     })
     viewModel.isLoading.observe(lifeCycleOwner, Observer {
-        visibilityMessage = it
+        isLoading = it
     })
-    AnimatedVisibility(visible = visibilityMessage) {
-        Text(text = "Cargando...", color = Color.Black)
-    }
-    AnimatedVisibility(visible = visibilityList, ) {
-        MoviesList(listMovies, viewModel, initialPage, toMovieDetail)
+
+    Column {
+        if(isLoading) {
+            LoaderFullScreen()
+        } else {
+            MoviesList(listMovies, viewModel, initialPage, toMovieDetail)
+        }
     }
 
 }
@@ -59,16 +60,18 @@ fun MoviesList(
     page: MutableIntState,
     toMovieDetail: (Int) -> Unit
 ) {
-
-    LazyColumn {
+    val listState = rememberLazyListState()
+    LazyColumn(
+        state = listState,
+        modifier = Modifier
+            .systemBarsPadding()
+            .imePadding()
+    ) {
         items(listMovies.size) {
 
-            Column(modifier = Modifier.clickable {
+            MovieCard(modifier = Modifier.clickable {
                 toMovieDetail(listMovies[it].id)
-            }) {
-                Text(text = "Position: ${it}")
-                Text(text = "Item ${listMovies[it].title}")
-            }
+            }, movie = listMovies[it])
 
 
             // Si estamos cerca del final de la lista, agregamos más elementos
@@ -77,6 +80,7 @@ fun MoviesList(
                 if (it == listMovies.lastIndex) {
                     page.intValue = page.intValue + 1
                     viewModel.getMovies(page.intValue)
+                    listState.scrollToItem(listMovies.size - 1)
                 }
             }
         }

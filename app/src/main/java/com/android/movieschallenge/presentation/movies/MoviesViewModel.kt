@@ -26,7 +26,7 @@ class MoviesViewModel @Inject constructor(private val moviesUseCase: MoviesUseCa
             val result = withContext(Dispatchers.Default) {
                 moviesUseCase.getMovies(page)
             }
-            movies.postValue(result.distinctBy { it.id }.sortedBy { it.title })
+            movies.postValue(result.distinctBy { it.id })
             isLoading.postValue(false)
         }
     }
