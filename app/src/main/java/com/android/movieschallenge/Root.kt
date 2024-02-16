@@ -40,7 +40,7 @@ fun Root(lifeCycleOwner: LifecycleOwner) {
         composable(Screens.MOVIE_DETAIL.name + "/{id}",
                 arguments = listOf(navArgument("id") { type = NavType.IntType })){ it ->
             it.arguments?.getInt("id")?.let {
-                DetailMovieScreen(id = it)
+                DetailMovieScreen(lifeCycleOwner, id = it)
             }
         }
 

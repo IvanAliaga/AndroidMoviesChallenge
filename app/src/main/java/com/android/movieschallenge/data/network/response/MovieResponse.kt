@@ -9,5 +9,7 @@ data class MovieResponse (
     @SerializedName("release_date") val releaseDate: String,
     @SerializedName("overview") val overview: String,
     @SerializedName("poster_path") val posterPath: String
-)
+) {
+    constructor() : this(-1, "", 0.0, "", "", "")
+}
 

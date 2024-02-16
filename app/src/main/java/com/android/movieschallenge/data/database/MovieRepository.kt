@@ -8,6 +8,8 @@ import com.android.movieschallenge.domain.model.Movie
 import com.android.movieschallenge.domain.model.toDomain
 import javax.inject.Inject
 
+private const val PAGE_SIZE = 20
+
 class MovieRepository @Inject constructor(
     private val api: MovieService,
     private val movieDao: MovieDao
@@ -18,9 +20,19 @@ class MovieRepository @Inject constructor(
     }
 
     suspend fun getAllMoviesFromDatabase(page: Int):List<Movie>{
-        val offset: Int = 20 * (page - 1)
+        val offset: Int = PAGE_SIZE * (page - 1)
         val response: List<MovieEntity> = movieDao.getPagedMovies(offset)
         return response.map { it.toDomain() }
+    }
+
+    suspend fun getMovieFromApi(id: Int): Movie{
+        val response: MovieResponse = api.getMovie(id)
+        return response.toDomain()
+    }
+
+    suspend fun getMovieFromDatabase(id: Int): Movie{
+        val response: MovieEntity = movieDao.getMovie(id)
+        return response.toDomain()
     }
 
     suspend fun insertMovies(quotes:List<MovieEntity>){

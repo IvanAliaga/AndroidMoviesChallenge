@@ -14,6 +14,9 @@ interface MovieDao {
     @Query("SELECT * FROM movie_table LIMIT 20 OFFSET :offset")
     suspend fun getPagedMovies(offset: Int): List<MovieEntity>
 
+    @Query("SELECT * FROM movie_table WHERE :id")
+    suspend fun getMovie(id: Int): MovieEntity
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(movies:List<MovieEntity>)
 
