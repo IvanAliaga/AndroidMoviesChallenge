@@ -17,24 +17,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.LifecycleOwner
 import coil.compose.AsyncImage
 import com.android.movieschallenge.di.Constants
 import com.android.movieschallenge.domain.model.Movie
 import com.android.movieschallenge.presentation.LoaderFullScreen
 
 @Composable
-fun DetailMovieScreen(
-    lifeCycleOwner: LifecycleOwner,
-    viewModel: MoviesViewModel = hiltViewModel(),
-    id: Int
-) {
+fun DetailMovieScreen(id: Int) {
+    val lifeCycleOwner = LocalLifecycleOwner.current
+    val viewModel: MoviesViewModel = hiltViewModel()
     val movie = remember { mutableStateOf<Movie?>(null) }
     var isLoading by remember { mutableStateOf(true) }
 

@@ -18,21 +18,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.android.movieschallenge.presentation.LoaderScreen
-
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun LoginScreen(lifeCycleOwner: LifecycleOwner, toMovies: () -> Unit, viewModel: LoginViewModel = hiltViewModel()) {
+fun LoginScreen(toMovies: () -> Unit, ) {
+    val lifeCycleOwner = LocalLifecycleOwner.current
+    val viewModel: LoginViewModel = hiltViewModel()
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var visibilityError by remember {

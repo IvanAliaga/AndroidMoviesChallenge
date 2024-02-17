@@ -1,7 +1,6 @@
 package com.android.movieschallenge
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,7 +12,7 @@ import com.android.movieschallenge.presentation.movies.DetailMovieScreen
 import com.android.movieschallenge.presentation.movies.MoviesScreen
 
 @Composable
-fun Root(lifeCycleOwner: LifecycleOwner) {
+fun Root() {
     // Create NavController
     val navController = rememberNavController()
 
@@ -22,7 +21,7 @@ fun Root(lifeCycleOwner: LifecycleOwner) {
         startDestination = Screens.LOGIN.name
     ) {
         composable(Screens.LOGIN.name) {
-            LoginScreen(lifeCycleOwner,
+            LoginScreen(
                 toMovies = {navController.navigate(Screens.MOVIES.name)}
             )
         }
@@ -32,7 +31,7 @@ fun Root(lifeCycleOwner: LifecycleOwner) {
         }
 
         composable(Screens.MOVIES.name) {
-            MoviesScreen(lifeCycleOwner){id ->
+            MoviesScreen(){id ->
                 navController.navigate(Screens.MOVIE_DETAIL.name + "/$id")
             }
         }
@@ -40,7 +39,7 @@ fun Root(lifeCycleOwner: LifecycleOwner) {
         composable(Screens.MOVIE_DETAIL.name + "/{id}",
                 arguments = listOf(navArgument("id") { type = NavType.IntType })){ it ->
             it.arguments?.getInt("id")?.let {
-                DetailMovieScreen(lifeCycleOwner, id = it)
+                DetailMovieScreen(id = it)
             }
         }
 

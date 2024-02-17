@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     id("com.android.application") version "8.2.0" apply false
@@ -5,4 +7,24 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.9.21" apply false
     id("com.google.devtools.ksp") version "1.9.21-1.0.16" apply false
     id("com.google.dagger.hilt.android") version "2.50" apply false
+}
+
+subprojects {
+    tasks.withType<KotlinCompile>().configureEach {
+        kotlinOptions {
+            if (project.findProperty("com.android.movieschallenge.enableComposeCompilerReports") == "true") {
+                freeCompilerArgs += listOf(
+                    "-P",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
+                            File(project.buildDir, "compose_metrics").absolutePath
+
+                )
+                freeCompilerArgs += listOf(
+                    "-P",
+                    "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
+                            File(project.buildDir, "compose_metrics").absolutePath
+                )
+            }
+        }
+    }
 }

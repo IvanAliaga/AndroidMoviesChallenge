@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             AndroidMoviesChallengeTheme {
-                Root(this)
+                Root()
             }
         }
     }
