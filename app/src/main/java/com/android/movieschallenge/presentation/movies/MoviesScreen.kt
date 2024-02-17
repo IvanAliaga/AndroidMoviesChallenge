@@ -26,9 +26,6 @@ import com.android.movieschallenge.presentation.LoaderFullScreen
 fun MoviesScreen(lifeCycleOwner: LifecycleOwner, viewModel: MoviesViewModel = hiltViewModel(), toMovieDetail: (Int) -> Unit) {
     val listMovies = remember { mutableStateListOf<Movie>() }
 
-    var visibilityList by remember {
-        mutableStateOf(false)
-    }
     val initialPage = remember {
         mutableIntStateOf(1)
     }
@@ -37,7 +34,6 @@ fun MoviesScreen(lifeCycleOwner: LifecycleOwner, viewModel: MoviesViewModel = hi
 
     viewModel.movies.observe(lifeCycleOwner, Observer { it ->
         listMovies.addAll(it)
-        visibilityList = true
     })
     viewModel.isLoading.observe(lifeCycleOwner, Observer {
         isLoading = it
@@ -46,9 +42,8 @@ fun MoviesScreen(lifeCycleOwner: LifecycleOwner, viewModel: MoviesViewModel = hi
     Column {
         if(isLoading) {
             LoaderFullScreen()
-        } else {
-            MoviesList(listMovies, viewModel, initialPage, toMovieDetail)
         }
+        MoviesList(listMovies, viewModel, initialPage, toMovieDetail)
     }
 
 }
@@ -80,7 +75,6 @@ fun MoviesList(
                 if (it == listMovies.lastIndex) {
                     page.intValue = page.intValue + 1
                     viewModel.getMovies(page.intValue)
-                    listState.scrollToItem(listMovies.size - 1)
                 }
             }
         }
