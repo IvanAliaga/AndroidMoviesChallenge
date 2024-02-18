@@ -31,7 +31,9 @@ fun MoviesScreenStateFlow(toMovieDetail: (Int) -> Unit) {
         if(isLoading){
             LoaderFullScreen()
         }
-        MovieLazyScreenStateColumn(movies, initialPage, toMovieDetail)
+        if(!movies.isEmpty()){
+            MovieLazyScreenStateColumn(movies, initialPage, toMovieDetail)
+        }
 
     }
 }
