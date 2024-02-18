@@ -1,5 +1,6 @@
 package com.android.movieschallenge.presentation.movies.state
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.movieschallenge.domain.model.Movie
@@ -45,7 +46,7 @@ open class MoviesStateFlowMovieModel @Inject constructor(private val moviesUseCa
                     (currentList + newMovies).toImmutableList()
                 }
             } catch (e: Exception) {
-                // Manejar errores específicos si es necesario
+                Log.e("MoviesStateFlowMovieModel", e.message.toString() + " " + e.localizedMessage.toString())
             } finally {
                 _isLoading.value = false
             }

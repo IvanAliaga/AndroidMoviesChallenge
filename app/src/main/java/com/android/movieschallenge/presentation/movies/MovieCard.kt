@@ -1,5 +1,6 @@
 package com.android.movieschallenge.presentation.movies
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -42,13 +44,19 @@ fun MovieCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Imagen en el lado izquierdo
+
             AsyncImage(
                 model = Constants.BASE_IMAGE_URL + movie.posterPath,
                 contentDescription = movie.title,
                 modifier = Modifier
                     .size(80.dp)
                     .clip(RoundedCornerShape(16.dp)),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
+                placeholder = ColorPainter(color = Color.Gray),
+                error = ColorPainter(color = Color.Gray),
+                onError = {
+                    Log.e("AsyncImage", "Error: " + it.result.toString())
+                }
             )
 
             // Espacio entre la imagen y el título/descripción
