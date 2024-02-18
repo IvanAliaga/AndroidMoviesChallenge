@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -23,7 +23,7 @@ fun MoviesScreenStateFlow(toMovieDetail: (Int) -> Unit) {
     val movies = combinedState.first
     val isLoading = combinedState.second
 
-    val initialPage = remember {
+    val initialPage = rememberSaveable {
         mutableIntStateOf(1)
     }
 
