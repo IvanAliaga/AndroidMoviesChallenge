@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -34,12 +35,15 @@ open class MoviesStateFlowMovieModel @Inject constructor(private val moviesUseCa
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val currentList = _movies.value
                 val result = withContext(Dispatchers.Default) {
                     moviesUseCase.getMovies(page)
                 }
-                val updateList = (currentList + result).distinctBy { it.id }.toImmutableList()
-                _movies.value = updateList
+                _movies.update { currentList ->
+                    val newMovies = result.filterNot { movie ->
+                        currentList.any { it.id == movie.id }
+                    }
+                    (currentList + newMovies).toImmutableList()
+                }
             } catch (e: Exception) {
                 // Manejar errores específicos si es necesario
             } finally {

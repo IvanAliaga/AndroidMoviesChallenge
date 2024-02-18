@@ -32,7 +32,7 @@ fun MovieLazyScreenStateColumn (
     ) {
         items(count = movieList.size,
             key = {
-                movieList[it].idUUID
+                movieList[it].id
             }){
 
             MovieCard(modifier = Modifier.clickable {
