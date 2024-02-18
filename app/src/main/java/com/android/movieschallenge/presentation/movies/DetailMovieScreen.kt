@@ -28,6 +28,7 @@ import coil.compose.AsyncImage
 import com.android.movieschallenge.di.Constants
 import com.android.movieschallenge.domain.model.Movie
 import com.android.movieschallenge.presentation.LoaderFullScreen
+import com.android.movieschallenge.presentation.movies.movies.MoviesViewModel
 
 @Composable
 fun DetailMovieScreen(id: Int) {

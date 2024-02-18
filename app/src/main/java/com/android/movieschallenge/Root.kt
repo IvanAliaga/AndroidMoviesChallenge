@@ -9,7 +9,7 @@ import androidx.navigation.navArgument
 import com.android.movieschallenge.presentation.LoaderScreen
 import com.android.movieschallenge.presentation.login.LoginScreen
 import com.android.movieschallenge.presentation.movies.DetailMovieScreen
-import com.android.movieschallenge.presentation.movies.MoviesScreen
+import com.android.movieschallenge.presentation.movies.state.MoviesScreenStateFlow
 
 @Composable
 fun Root() {
@@ -22,19 +22,34 @@ fun Root() {
     ) {
         composable(Screens.LOGIN.name) {
             LoginScreen(
-                toMovies = {navController.navigate(Screens.MOVIES.name)}
+                toMovies = {navController.navigate(Screens.MOVIES_SCREEN_STATE_FLOW.name)}
             )
         }
 
         composable(Screens.LOADER_SCREEN.name){
-            LoaderScreen(toMovies = {navController.navigate(Screens.MOVIES.name)})
+            LoaderScreen(toMovies = {navController.navigate(Screens.MOVIES_SCREEN_STATE_FLOW.name)})
         }
 
+        /*
         composable(Screens.MOVIES.name) {
-            MoviesScreen(){id ->
+            MoviesScreen { id ->
                 navController.navigate(Screens.MOVIE_DETAIL.name + "/$id")
             }
         }
+        */
+        composable(Screens.MOVIES_SCREEN_STATE_FLOW.name) {
+            MoviesScreenStateFlow { id ->
+                navController.navigate(Screens.MOVIE_DETAIL.name + "/$id")
+            }
+        }
+
+        /*
+        composable(Screens.MOVIES_SCREEN_STATE_SCREEN_FLOW.name) {
+            MoviesScreenStateScreenFlow  { id ->
+                navController.navigate(Screens.MOVIE_DETAIL.name + "/$id")
+            }
+        }*/
+
 
         composable(Screens.MOVIE_DETAIL.name + "/{id}",
                 arguments = listOf(navArgument("id") { type = NavType.IntType })){ it ->
@@ -50,5 +65,7 @@ enum class Screens {
     LOGIN,
     LOADER_SCREEN,
     MOVIES,
+    MOVIES_SCREEN_STATE_FLOW,
+    MOVIES_SCREEN_STATE_SCREEN_FLOW,
     MOVIE_DETAIL
 }
