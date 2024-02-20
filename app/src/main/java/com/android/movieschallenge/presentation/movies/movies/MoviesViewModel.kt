@@ -1,5 +1,6 @@
 package com.android.movieschallenge.presentation.movies.movies
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@Stable
 @HiltViewModel
 class MoviesViewModel @Inject constructor(private val moviesUseCase: MoviesUseCase) : ViewModel() {
     private val _movies = MutableLiveData<ImmutableList<Movie>>()

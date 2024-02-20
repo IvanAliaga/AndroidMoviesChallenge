@@ -1,16 +1,19 @@
 package com.android.movieschallenge.data.network
 
 import android.util.Log
+import androidx.compose.runtime.Stable
 import com.android.movieschallenge.data.network.response.MovieResponse
 import com.android.movieschallenge.data.network.response.ObjectResponse
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@Stable
 class MovieService @Inject constructor(private val api: MovieDataApi) {
     suspend fun getMovies(page: Int): ObjectResponse {
         return withContext(Dispatchers.IO) {
-            var objectResponse = ObjectResponse(0, emptyList())
+            var objectResponse = ObjectResponse(0, emptyList<MovieResponse>().toImmutableList())
             try {
                 val response = api.getUpcoming(page)
                 if(response.isSuccessful){

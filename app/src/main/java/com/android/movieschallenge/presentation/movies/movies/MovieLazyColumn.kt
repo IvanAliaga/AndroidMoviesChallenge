@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableIntState
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.movieschallenge.domain.model.Movie
@@ -15,6 +16,7 @@ import com.android.movieschallenge.presentation.movies.MovieCard
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
+@Stable
 @Composable
 fun MovieLazyColumn (
     movieList: ImmutableList<Movie> = emptyList<Movie>().toImmutableList(),

@@ -1,6 +1,7 @@
 package com.android.movieschallenge.presentation.movies.state
 
 import android.util.Log
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.movieschallenge.domain.model.Movie
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+@Stable
 @HiltViewModel
 open class MoviesStateFlowMovieModel @Inject constructor(private val moviesUseCase: MoviesUseCase) : ViewModel() {
     private val _movies = MutableStateFlow(emptyList<Movie>().toImmutableList())

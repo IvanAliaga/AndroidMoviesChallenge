@@ -13,6 +13,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Observer
 import com.android.movieschallenge.presentation.LoaderScreen
+
+@Stable
 @Composable
 fun LoginScreen(toMovies: () -> Unit, ) {
     val lifeCycleOwner = LocalLifecycleOwner.current

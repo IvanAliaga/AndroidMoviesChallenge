@@ -2,6 +2,7 @@ package com.android.movieschallenge.presentation.movies.state
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -12,6 +13,7 @@ import com.android.movieschallenge.domain.model.Movie
 import com.android.movieschallenge.presentation.LoaderFullScreen
 import kotlinx.collections.immutable.toImmutableList
 
+@Stable
 @Composable
 fun MoviesScreenStateFlow(toMovieDetail: (Int) -> Unit) {
     val viewModel: MoviesStateFlowMovieModel = hiltViewModel()

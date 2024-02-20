@@ -1,6 +1,7 @@
 package com.android.movieschallenge.presentation.movies.statescreenflow
 
 import android.util.Log
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.movieschallenge.domain.usecase.MoviesUseCase
@@ -16,6 +17,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@Stable
 @HiltViewModel
 class MoviesScreenStateFlowViewModel @Inject constructor(private val moviesUseCase: MoviesUseCase) : ViewModel() {
     private val _screenState = MutableStateFlow(MoviesScreenState.default())

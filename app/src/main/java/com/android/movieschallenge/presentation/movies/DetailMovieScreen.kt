@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,6 +31,7 @@ import com.android.movieschallenge.domain.model.Movie
 import com.android.movieschallenge.presentation.LoaderFullScreen
 import com.android.movieschallenge.presentation.movies.movies.MoviesViewModel
 
+@Stable
 @Composable
 fun DetailMovieScreen(id: Int) {
     val lifeCycleOwner = LocalLifecycleOwner.current
