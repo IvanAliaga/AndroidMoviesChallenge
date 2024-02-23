@@ -28,6 +28,8 @@ fun LoaderFullScreen() {
     var expanded by remember { mutableStateOf(false) }
     val width = animateDpAsState(
         targetValue = if (expanded) screenWidthDp.dp else 50.dp,
+        // Permite especificar cómo deben interpolarse los valores durante la animación.
+        //de 0 a 100 de tipo FastOutSlowInEasing, empieza rápido y termina lento
         animationSpec = tween(durationMillis = 1000), label = "animateDpAsStateWidth"
     )
 
@@ -49,7 +51,7 @@ fun LoaderFullScreen() {
             CircularProgressIndicator()
         }
     }
-
+    // Operación asíncrona dentro de un componente Compose
     LaunchedEffect(Unit) {
         expanded = true
     }

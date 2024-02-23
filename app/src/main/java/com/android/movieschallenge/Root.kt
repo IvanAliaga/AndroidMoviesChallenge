@@ -8,12 +8,12 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.android.movieschallenge.presentation.LoaderScreen
 import com.android.movieschallenge.presentation.login.LoginScreen
-import com.android.movieschallenge.presentation.movies.DetailMovieScreen
-import com.android.movieschallenge.presentation.movies.state.MoviesScreenStateFlow
+import com.android.movieschallenge.presentation.movies.detail.DetailMovieScreen
+import com.android.movieschallenge.presentation.movies.movie.MoviesScreenStateFlow
 
 @Composable
 fun Root() {
-    // Create NavController
+    // Creación de NavController
     val navController = rememberNavController()
 
     NavHost(
@@ -30,26 +30,11 @@ fun Root() {
             LoaderScreen(toMovies = {navController.navigate(Screens.MOVIES_SCREEN_STATE_FLOW.name)})
         }
 
-        /*
-        composable(Screens.MOVIES.name) {
-            MoviesScreen { id ->
-                navController.navigate(Screens.MOVIE_DETAIL.name + "/$id")
-            }
-        }
-        */
         composable(Screens.MOVIES_SCREEN_STATE_FLOW.name) {
             MoviesScreenStateFlow { id ->
                 navController.navigate(Screens.MOVIE_DETAIL.name + "/$id")
             }
         }
-
-        /*
-        composable(Screens.MOVIES_SCREEN_STATE_SCREEN_FLOW.name) {
-            MoviesScreenStateScreenFlow  { id ->
-                navController.navigate(Screens.MOVIE_DETAIL.name + "/$id")
-            }
-        }*/
-
 
         composable(Screens.MOVIE_DETAIL.name + "/{id}",
                 arguments = listOf(navArgument("id") { type = NavType.IntType })){ it ->
@@ -64,8 +49,6 @@ fun Root() {
 enum class Screens {
     LOGIN,
     LOADER_SCREEN,
-    MOVIES,
     MOVIES_SCREEN_STATE_FLOW,
-    MOVIES_SCREEN_STATE_SCREEN_FLOW,
     MOVIE_DETAIL
 }

@@ -1,4 +1,4 @@
-package com.android.movieschallenge.presentation.movies
+package com.android.movieschallenge.presentation.movies.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -10,52 +10,39 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.android.movieschallenge.di.Constants
-import com.android.movieschallenge.domain.model.Movie
 import com.android.movieschallenge.presentation.LoaderFullScreen
-import com.android.movieschallenge.presentation.movies.movies.MoviesViewModel
+import com.android.movieschallenge.presentation.movies.movie.MoviesStateFlowMovieModel
 
 @Stable
 @Composable
 fun DetailMovieScreen(id: Int) {
-    val lifeCycleOwner = LocalLifecycleOwner.current
-    val viewModel: MoviesViewModel = hiltViewModel()
-    val movie = remember { mutableStateOf<Movie?>(null) }
-    var isLoading by remember { mutableStateOf(true) }
+    val viewModel: MoviesStateFlowMovieModel = hiltViewModel()
+    val movie by viewModel.movie.collectAsStateWithLifecycle()
+    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
 
     LaunchedEffect(id) {
         viewModel.getMovie(id)
     }
 
-    LaunchedEffect(movie.value) {
-        if (movie.value != null) {
-            isLoading = false
-        }
-    }
-    viewModel.movie.observe(lifeCycleOwner) { it ->
-        movie.value = it
-    }
     Column {
         if (isLoading) {
             LoaderFullScreen()
         } else {
-            movie.value?.let { movie ->
+            movie?.let { movie ->
                 Box() {
                     AsyncImage(
                         model = Constants.BASE_IMAGE_URL + movie.posterPath,

@@ -1,4 +1,4 @@
-package com.android.movieschallenge.presentation.movies.state
+package com.android.movieschallenge.presentation.movies.movie
 
 import android.util.Log
 import androidx.compose.runtime.Stable

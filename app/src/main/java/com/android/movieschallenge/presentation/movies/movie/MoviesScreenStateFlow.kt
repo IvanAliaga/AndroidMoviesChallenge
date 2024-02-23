@@ -1,4 +1,4 @@
-package com.android.movieschallenge.presentation.movies.state
+package com.android.movieschallenge.presentation.movies.movie
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable

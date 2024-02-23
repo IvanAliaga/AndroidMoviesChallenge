@@ -1,4 +1,4 @@
-package com.android.movieschallenge.presentation.movies.state
+package com.android.movieschallenge.presentation.movies.movie
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.imePadding
