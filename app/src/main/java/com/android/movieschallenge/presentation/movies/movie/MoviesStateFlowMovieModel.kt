@@ -48,7 +48,7 @@ open class MoviesStateFlowMovieModel @Inject constructor(private val moviesUseCa
                     (currentList + newMovies).toImmutableList()
                 }
             } catch (e: Exception) {
-                Log.e("MoviesStateFlowMovieModel", e.message.toString() + " " + e.localizedMessage.toString())
+                Log.e("MoviesStateFlowMovieModel", e.message.toString() + " " + e.localizedMessage?.toString())
             } finally {
                 _isLoading.value = false
             }
@@ -64,7 +64,7 @@ open class MoviesStateFlowMovieModel @Inject constructor(private val moviesUseCa
                 }
                 _movie.value = result
             } catch (e: Exception) {
-                // Manejar errores específicos si es necesario
+                Log.e("MoviesStateFlowMovieModel", e.message.toString() + " " + e.localizedMessage?.toString())
             } finally {
                 _isLoading.value = false
             }
